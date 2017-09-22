@@ -12,6 +12,7 @@ namespace SimpleShop.Context
 
         public DbSet<Product> Products { get; set; }
         public DbSet<ProdInfo> ProductInfo { get; set; }
+        public DbSet<Shop> Shops { get; set; }
         //public DbSet<Shop> Shops { getl; set; }
     }
 }

@@ -2,16 +2,16 @@
 
 namespace SimpleShop.Models
 {
-    public class Product
+    public class Shop
     {
         [Key]
         [Required]
-        public int ProductId { get; set; }
+        public int ShopId { get; set; }
 
         [Required]
-        public string ProductName { get; set; }
+        public string ShopName { get; set; }
 
         [Required]
-        public string Description { get; set; }
+        public string ShopDescription { get; set; }
     }
 }
