@@ -199,6 +199,14 @@
     <Compile Include="Migrations\201709221538432_InitialModel.Designer.cs">
       <DependentUpon>201709221538432_InitialModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709221728272_addedConventionsForProductAndShop.cs" />
+    <Compile Include="Migrations\201709221728272_addedConventionsForProductAndShop.Designer.cs">
+      <DependentUpon>201709221728272_addedConventionsForProductAndShop.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709221736113_PopulateTables.cs" />
+    <Compile Include="Migrations\201709221736113_PopulateTables.Designer.cs">
+      <DependentUpon>201709221736113_PopulateTables.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -288,6 +296,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201709221538432_InitialModel.resx">
       <DependentUpon>201709221538432_InitialModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709221728272_addedConventionsForProductAndShop.resx">
+      <DependentUpon>201709221728272_addedConventionsForProductAndShop.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709221736113_PopulateTables.resx">
+      <DependentUpon>201709221736113_PopulateTables.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

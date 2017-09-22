@@ -9,6 +9,7 @@ namespace SimpleShop.Models
         public int ProductId { get; set; }
 
         [Required]
+        [StringLength(255)]
         public string ProductName { get; set; }
 
         [Required]

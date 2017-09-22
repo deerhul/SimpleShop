@@ -9,6 +9,7 @@ namespace SimpleShop.Models
         public int ShopId { get; set; }
 
         [Required]
+        [StringLength(255)]
         public string ShopName { get; set; }
 
         [Required]
