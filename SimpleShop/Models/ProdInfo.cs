@@ -4,6 +4,9 @@ namespace SimpleShop.Models
 {
     public class ProdInfo
     {
+        [Key]
+        public int ProdInfoId { get; set; }
+
         [Required]
         public int ProductId { get; set; }
 
