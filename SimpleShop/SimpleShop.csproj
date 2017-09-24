@@ -192,6 +192,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -207,10 +208,15 @@
     <Compile Include="Migrations\201709221736113_PopulateTables.Designer.cs">
       <DependentUpon>201709221736113_PopulateTables.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709241144390_addedNewModelAndImageStrings.cs" />
+    <Compile Include="Migrations\201709241144390_addedNewModelAndImageStrings.Designer.cs">
+      <DependentUpon>201709241144390_addedNewModelAndImageStrings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PPinfoCase.cs" />
     <Compile Include="Models\ProdInfo.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Shop.cs" />
@@ -274,6 +280,11 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Products\Create.cshtml" />
+    <Content Include="Views\Products\Delete.cshtml" />
+    <Content Include="Views\Products\Details.cshtml" />
+    <Content Include="Views\Products\Edit.cshtml" />
+    <Content Include="Views\Products\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -302,6 +313,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709221736113_PopulateTables.resx">
       <DependentUpon>201709221736113_PopulateTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709241144390_addedNewModelAndImageStrings.resx">
+      <DependentUpon>201709241144390_addedNewModelAndImageStrings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

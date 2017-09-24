@@ -14,5 +14,7 @@ namespace SimpleShop.Models
 
         [Required]
         public string Description { get; set; }
+
+        public string ImageUrl { get; set; }
     }
 }
