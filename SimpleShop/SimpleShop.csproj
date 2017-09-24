@@ -212,6 +212,10 @@
     <Compile Include="Migrations\201709241144390_addedNewModelAndImageStrings.Designer.cs">
       <DependentUpon>201709241144390_addedNewModelAndImageStrings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709241154160_SeedShopsModel.cs" />
+    <Compile Include="Migrations\201709241154160_SeedShopsModel.Designer.cs">
+      <DependentUpon>201709241154160_SeedShopsModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -316,6 +320,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709241144390_addedNewModelAndImageStrings.resx">
       <DependentUpon>201709241144390_addedNewModelAndImageStrings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709241154160_SeedShopsModel.resx">
+      <DependentUpon>201709241154160_SeedShopsModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
