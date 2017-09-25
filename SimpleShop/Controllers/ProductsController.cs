@@ -1,25 +1,41 @@
-﻿using System;
+﻿using SimpleShop.Context;
+using SimpleShop.Models;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using SimpleShop.Context;
-using SimpleShop.Models;
 
 namespace SimpleShop.Controllers
 {
     public class ProductsController : Controller
     {
-        private SimpleShopDbContext db = new SimpleShopDbContext();
+        public SimpleShopDbContext db = new SimpleShopDbContext();
 
         // GET: Products
         public ActionResult Index()
         {
-            return View(db.Products.ToList());
+            //public List<PPinfoCase> itemList;
+            ICollection<PPinfoCase> viewModel = new List<PPinfoCase>();
+            PPinfoCase temp;
+            //get products and ProdInfo
+            var products = from Product in db.Products
+                           select Product;
+            var prodinfo = from ProdInfo in db.ProductInfo
+                           select ProdInfo;
+            foreach (Product prod in products)
+            {
+                temp = new PPinfoCase();
+                temp.getItems(prod, prodinfo.ToList());
+                viewModel.Add(temp);
+            }
+            
+
+            return View(viewModel.ToList());
+
+            //return View(db.Products.ToList());
         }
+    
 
         // GET: Products/Details/5
         public ActionResult Details(int? id)

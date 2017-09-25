@@ -10,11 +10,14 @@ namespace SimpleShop.Models
 
         [Required]
         [StringLength(255)]
+        [Display(Name = "Product")]
         public string ProductName { get; set; }
 
         [Required]
+        [Display(Name = "Product Description")]
         public string Description { get; set; }
 
+        [Display(Name = "Product Image")]
         public string ImageUrl { get; set; }
     }
 }
