@@ -13,23 +13,28 @@ namespace SimpleShop.Controllers
         public SimpleShopDbContext db = new SimpleShopDbContext();
 
         // GET: Products
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
             //public List<PPinfoCase> itemList;
             ICollection<PPinfoCase> viewModel = new List<PPinfoCase>();
             PPinfoCase temp;
+
             //get products and ProdInfo
             var products = from Product in db.Products
-                           select Product;
+                select Product;
             var prodinfo = from ProdInfo in db.ProductInfo
-                           select ProdInfo;
+                select ProdInfo;
             foreach (Product prod in products)
             {
                 temp = new PPinfoCase();
                 temp.getItems(prod, prodinfo.ToList());
                 viewModel.Add(temp);
             }
-            
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                return View(viewModel.Where(d => d.Product.ProductName.ToLower().Contains(search.ToLower()) ).ToList());
+            }        
 
             return View(viewModel.ToList());
 
