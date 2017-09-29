@@ -220,6 +220,10 @@
     <Compile Include="Migrations\201709251210335_seedProdInfo.Designer.cs">
       <DependentUpon>201709251210335_seedProdInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709291626282_UserCartItemModelAdded.cs" />
+    <Compile Include="Migrations\201709291626282_UserCartItemModelAdded.Designer.cs">
+      <DependentUpon>201709291626282_UserCartItemModelAdded.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -228,6 +232,7 @@
     <Compile Include="Models\ProdInfo.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Shop.cs" />
+    <Compile Include="Models\UserCartItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -333,6 +338,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709251210335_seedProdInfo.resx">
       <DependentUpon>201709251210335_seedProdInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709291626282_UserCartItemModelAdded.resx">
+      <DependentUpon>201709291626282_UserCartItemModelAdded.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
