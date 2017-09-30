@@ -33,7 +33,8 @@ namespace SimpleShop.Controllers
 
             if (!string.IsNullOrEmpty(search))
             {
-                return View(viewModel.Where(d => d.Product.ProductName.ToLower().Contains(search.ToLower()) ).ToList());
+                return View(viewModel.Where(d => ( d.Product.ProductName.ToLower().Contains(search.ToLower()) ) 
+                || ( d.Product.Description.ToLower().Contains(search.ToLower()) )).ToList());
             }        
 
             return View(viewModel.ToList());
