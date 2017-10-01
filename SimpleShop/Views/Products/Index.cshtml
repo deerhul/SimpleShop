@@ -1,10 +1,19 @@
-﻿@model List<SimpleShop.Models.PPinfoCase>
+﻿@model IEnumerable<SimpleShop.Models.PPinfoCase>
 
 @{
     ViewBag.Title = "Index";
+    int count = 0;
 }
 
 <h2>Index</h2>
+
+
+@if (ViewData["Alertmsg"] != null)
+{
+    <script>
+        alert('@ViewData["Alertmsg"]');
+    </script>
+}
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -12,59 +21,72 @@
 <p>
     @using (Html.BeginForm("Index", "Products", FormMethod.Get))
     {
-        <b > Search:</b >
+        <b> Search:</b>
         <br />
-        @Html.TextBox("search", null, new { autofocus="autofocus" }) <input type="submit" value= "Search" />
+        @Html.TextBox("search", null, new { autofocus = "autofocus" }) <input type="submit" value="Search" />
+
     }
 </p>
 <table class="table">
     <tr>
         <th>
-            @*@Html.DisplayNameFor(model => model.ProductName)*@
-            Product
+            @Html.DisplayNameFor(Model => Model.Product.ProductName)
         </th>
         <th>
-            @*@Html.DisplayNameFor(model => model.ImageUrl)*@
-            Product Image
+            @Html.DisplayNameFor(Model => Model.Product.ImageUrl)
         </th>
         <th>
-            @*@Html.DisplayNameFor(model => model.Description)*@
-            Product Description
+            @Html.DisplayNameFor(Model => Model.Product.Description)
         </th>
         <th>
-            Price
+            @Html.DisplayNameFor(Model => Model.ProdInfo.Price)
         </th>
         <th>
-            Quantity Available
+            @Html.DisplayNameFor(Model => Model.ProdInfo.Quantity)
         </th>
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
+
+    @using (Html.BeginForm("AddToCart", "Products"))
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Product.ProductName)
-            </td>
-            <td>
-                @*@Html.DisplayFor(modelItem => item.ImageUrl)*@
-                <img src="@Url.Content("~/Content/images/"+@item.Product.ImageUrl)" alt="@item.Product.ProductName" height="100" width="150">
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Product.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProdInfo.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProdInfo.Quantity)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Product.ProductId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Product.ProductId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Product.ProductId })
-            </td>
-        </tr>
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.ProductName)
+                </td>
+                <td>
+                    <img src="@Url.Content("~/Content/images/"+@item.Product.ImageUrl)" alt="@item.Product.ProductName" height="100" width="150">
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProdInfo.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProdInfo.Quantity)
+                </td>
+                <td>
+
+                    @Html.TextBox("quantity", null, new { style = "width:50px", maxlength = "3" })
+                    @*@Html.Hidden("ProductId", item.Product.ProductId)*@
+                    @Html.Hidden("ProductId", item.Product.ProductId)
+
+                    <button type="submit" value="ProductId">Add Item</button>
+                </td>
+
+
+                @*<td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Product.ProductId }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Product.ProductId }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Product.ProductId })
+                    </td>*@
+            </tr>
+            count++;
+        }
+        
     }
 
 </table>

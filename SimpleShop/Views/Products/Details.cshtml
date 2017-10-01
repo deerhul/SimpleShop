@@ -4,24 +4,32 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Product Details</h2>
 
 <div>
     <h4>Product</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.ProductName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ProductName)
-        </dd>
-
+        </dt>*@
+        
+        <b>
+            <dt>
+                @Html.DisplayFor(model => model.ProductName)
+            </dt>
+        </b>
+        <br />
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
+            <img src="@Url.Content("~/Content/Images/"+@Model.ImageUrl)" alt="@Model.ProductName" height="100" width="150" />
         </dt>
 
+        @*<b>
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+        </b>*@
+        <br />
         <dd>
             @Html.DisplayFor(model => model.Description)
         </dd>
@@ -33,7 +41,7 @@
     @Html.ActionLink("Back to List", "Index")
 </p>
 
-@* 
+@*
     add a carousel for sliding pictures of selected items.
     add information such as Quantity and Prices along with Description etc etc...
 *@

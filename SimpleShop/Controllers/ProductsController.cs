@@ -1,5 +1,6 @@
 ﻿using SimpleShop.Context;
 using SimpleShop.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace SimpleShop.Controllers
         public SimpleShopDbContext db = new SimpleShopDbContext();
 
         // GET: Products
-        public ActionResult Index(string search)
+        public ActionResult Index(string search, string quantity)
         {
             //public List<PPinfoCase> itemList;
             ICollection<PPinfoCase> viewModel = new List<PPinfoCase>();
@@ -33,15 +34,16 @@ namespace SimpleShop.Controllers
 
             if (!string.IsNullOrEmpty(search))
             {
-                return View(viewModel.Where(d => ( d.Product.ProductName.ToLower().Contains(search.ToLower()) ) 
-                || ( d.Product.Description.ToLower().Contains(search.ToLower()) )).ToList());
-            }        
+                return View(viewModel.Where(d => (d.Product.ProductName.ToLower().Contains(search.ToLower()))
+                                                 || (d.Product.Description.ToLower().Contains(search.ToLower())))
+                    .ToList());
+            }
 
             return View(viewModel.ToList());
 
             //return View(db.Products.ToList());
         }
-    
+
 
         // GET: Products/Details/5
         public ActionResult Details(int? id)
@@ -145,6 +147,66 @@ namespace SimpleShop.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult AddToCart(string ProductId, string quantity)
+        {
+            ICollection<PPinfoCase> viewModel = new List<PPinfoCase>();
+            PPinfoCase temp;
+            int tempId = 0;
+            int amount = 0;
+
+            AlertMessage("Product Id: " + ProductId + " Quantity: " + quantity);
+
+            
+
+            //get products and ProdInfo
+            var products = from Product in db.Products
+                           select Product;
+            var prodinfo = from ProdInfo in db.ProductInfo
+                           select ProdInfo;
+            foreach (Product prod in products)
+            {
+                temp = new PPinfoCase();
+                temp.getItems(prod, prodinfo.ToList());
+                viewModel.Add(temp);
+            }
+
+            if (!Int32.TryParse(ProductId, out tempId) || !Int32.TryParse(quantity, out amount))
+            {
+                //send alert
+                AlertMessage("An error has occurred");
+            }
+
+            foreach (PPinfoCase item in viewModel)
+            {
+                if (item.Product.ProductId == tempId)
+                {
+                    //check if amount wanted exceeds amount available
+                    if (item.ProdInfo.Quantity < amount)
+                    {
+                        //send alert
+                        AlertMessage("Amount requested has exceed the available.");
+                        return View("Index",viewModel.ToList());
+                    }
+                    else
+                    {
+                        item.ProdInfo.Quantity -= amount;
+                    }
+                }
+            }
+
+            if (ModelState.IsValid)
+            {
+                ModelState.Clear();
+            }
+
+            return View("Index", viewModel.ToList());
+        }
+
+        public void AlertMessage(string message) //not working atm
+        {
+            ViewData["Alertmsg"] = message;
         }
     }
 }

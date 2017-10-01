@@ -14,9 +14,11 @@ namespace SimpleShop.Models
         public int ShopId { get; set; }
 
         [Required]
+        [Display(Name = "Quantity")]
         public int Quantity { get; set; }
 
         [Required]
+        [Display(Name = "Item Price")]
         public double Price { get; set; }
 
         //public string ImageCollection { get; set; }
