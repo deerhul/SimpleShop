@@ -1,6 +1,5 @@
 ﻿using SimpleShop.Context;
 using SimpleShop.Models;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -149,51 +148,76 @@ namespace SimpleShop.Controllers
             base.Dispose(disposing);
         }
 
-        public ActionResult AddToCart(string ProductId, string quantity)
+        //public ActionResult AddToCart(string ProductId, string quantity)
+        //{
+        //    ICollection<PPinfoCase> viewModel = new List<PPinfoCase>();
+        //    PPinfoCase temp;
+        //    int tempId = 0;
+        //    int amount = 0;
+
+        //    AlertMessage("Product Id: " + ProductId + " Quantity: " + quantity);
+
+
+
+        //    //get products and ProdInfo
+        //    var products = from Product in db.Products
+        //                   select Product;
+        //    var prodinfo = from ProdInfo in db.ProductInfo
+        //                   select ProdInfo;
+        //    foreach (Product prod in products)
+        //    {
+        //        temp = new PPinfoCase();
+        //        temp.getItems(prod, prodinfo.ToList());
+        //        viewModel.Add(temp);
+        //    }
+
+        //    if (!Int32.TryParse(ProductId, out tempId) || !Int32.TryParse(quantity, out amount))
+        //    {
+        //        //send alert
+        //        AlertMessage("An error has occurred");
+        //    }
+
+        //    foreach (PPinfoCase item in viewModel)
+        //    {
+        //        if (item.Product.ProductId == tempId)
+        //        {
+        //            //check if amount wanted exceeds amount available
+        //            if (item.ProdInfo.Quantity < amount)
+        //            {
+        //                //send alert
+        //                AlertMessage("Amount requested has exceed the available.");
+        //                return View("Index",viewModel.ToList());
+        //            }
+        //            else
+        //            {
+        //                item.ProdInfo.Quantity -= amount;
+        //            }
+        //        }
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        ModelState.Clear();
+        //    }
+
+        //    return View("Index", viewModel.ToList());
+        //}
+
+        public ActionResult AddToCart(IEnumerable<PPinfoCase> prod)
         {
             ICollection<PPinfoCase> viewModel = new List<PPinfoCase>();
             PPinfoCase temp;
-            int tempId = 0;
-            int amount = 0;
-
-            AlertMessage("Product Id: " + ProductId + " Quantity: " + quantity);
-
-            
 
             //get products and ProdInfo
             var products = from Product in db.Products
-                           select Product;
+                select Product;
             var prodinfo = from ProdInfo in db.ProductInfo
-                           select ProdInfo;
-            foreach (Product prod in products)
+                select ProdInfo;
+            foreach (Product p in products)
             {
                 temp = new PPinfoCase();
-                temp.getItems(prod, prodinfo.ToList());
+                temp.getItems(p, prodinfo.ToList());
                 viewModel.Add(temp);
-            }
-
-            if (!Int32.TryParse(ProductId, out tempId) || !Int32.TryParse(quantity, out amount))
-            {
-                //send alert
-                AlertMessage("An error has occurred");
-            }
-
-            foreach (PPinfoCase item in viewModel)
-            {
-                if (item.Product.ProductId == tempId)
-                {
-                    //check if amount wanted exceeds amount available
-                    if (item.ProdInfo.Quantity < amount)
-                    {
-                        //send alert
-                        AlertMessage("Amount requested has exceed the available.");
-                        return View("Index",viewModel.ToList());
-                    }
-                    else
-                    {
-                        item.ProdInfo.Quantity -= amount;
-                    }
-                }
             }
 
             if (ModelState.IsValid)
@@ -201,6 +225,26 @@ namespace SimpleShop.Controllers
                 ModelState.Clear();
             }
 
+
+
+            int count = 0;
+            //for (int i = 0; i < Prod.Count; i++)
+            //{
+            //    if (Prod[i].amount > 0)
+            //    {
+
+            //    }
+            //}
+            //var objectVal = Prod[1].GetType().GetProperty("id").GetValue(Prod[1], null);
+            foreach (PPinfoCase item in prod)
+            {
+                if (item.ProdInfo.Quantity > 0)
+                {
+                    count++;
+                }
+            }
+            AlertMessage("Prod contained: " + count);
+            
             return View("Index", viewModel.ToList());
         }
 

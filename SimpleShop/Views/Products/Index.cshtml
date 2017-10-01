@@ -1,4 +1,5 @@
-﻿@model IEnumerable<SimpleShop.Models.PPinfoCase>
+﻿@using SimpleShop.Models
+@model IEnumerable<SimpleShop.Models.PPinfoCase>
 
 @{
     ViewBag.Title = "Index";
@@ -70,11 +71,13 @@
                 </td>
                 <td>
 
-                    @Html.TextBox("quantity", null, new { style = "width:50px", maxlength = "3" })
-                    @*@Html.Hidden("ProductId", item.Product.ProductId)*@
-                    @Html.Hidden("ProductId", item.Product.ProductId)
+                    Html.TextBox("quantity"+count, null, new { style = "width:50px", maxlength = "3", id = "quantityField" })
+                    @*Html.Hidden("ProductId", item.Product.ProductId)*@
+                    @*@Html.Hidden("ProdId"+count, item.Product.ProductId)*@
+                    @*@Html.Hidden("Prodamount"+count, null)*@
+                    
 
-                    <button type="submit" value="ProductId">Add Item</button>
+
                 </td>
 
 
@@ -84,9 +87,34 @@
                         @Html.ActionLink("Delete", "Delete", new { id = item.Product.ProductId })
                     </td>*@
             </tr>
+
             count++;
         }
-        
+        <button type="submit" id="add2cartbtn">Add Item</button>
+
     }
 
 </table>
+
+@* store all contents of textboxes to hidden attribute of each corresponding items *@
+<script type="text/javascript">
+    $(function () {
+        var amountField;
+        $('.add2cartbtn').click(function () {
+            for (int i = 0; i < count) {
+                
+                amountField = $("quantity" + i).val();
+                if (amountField != null && amountField > 0) {
+                    model[i].get(1).get(3).val(amountField);
+                } else {
+                    model[i].get(1).get(3).val(0);
+                }
+                
+                //$("Prodamount"+i).val(amountField);
+                i++;
+            }
+
+        $("")
+    })
+    })
+</script>
