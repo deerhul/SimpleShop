@@ -205,6 +205,39 @@ namespace SimpleShop.Controllers
 
         public ActionResult AddToCart(IEnumerable<PPinfoCase> prod)
         {
+            ICollection<PPinfoCase> viewModel;
+
+            int count = 0;
+            //for (int i = 0; i < Prod.Count; i++)
+            //{
+            //    if (Prod[i].amount > 0)
+            //    {
+
+            //    }
+            //}
+            //var objectVal = Prod[1].GetType().GetProperty("id").GetValue(Prod[1], null);
+            //foreach (PPinfoCase item in prod)
+            //{
+            //    if (item.ProdInfo.Quantity > 0)
+            //    {
+            //        count++;
+            //    }
+            //}
+            //AlertMessage("Prod contained: " + count);
+
+            EditQuantity(2, 13);
+
+            viewModel = GetProducts();
+            return View("Index", viewModel.ToList());
+        }
+
+        public void AlertMessage(string message) //display a message window with the given string
+        {
+            ViewData["Alertmsg"] = message;
+        }
+
+        public ICollection<PPinfoCase> GetProducts()
+        {
             ICollection<PPinfoCase> viewModel = new List<PPinfoCase>();
             PPinfoCase temp;
 
@@ -225,32 +258,30 @@ namespace SimpleShop.Controllers
                 ModelState.Clear();
             }
 
-
-
-            int count = 0;
-            //for (int i = 0; i < Prod.Count; i++)
-            //{
-            //    if (Prod[i].amount > 0)
-            //    {
-
-            //    }
-            //}
-            //var objectVal = Prod[1].GetType().GetProperty("id").GetValue(Prod[1], null);
-            foreach (PPinfoCase item in prod)
-            {
-                if (item.ProdInfo.Quantity > 0)
-                {
-                    count++;
-                }
-            }
-            AlertMessage("Prod contained: " + count);
-            
-            return View("Index", viewModel.ToList());
+            return viewModel;
         }
 
-        public void AlertMessage(string message) //not working atm
+        public void EditQuantity(int id, int amount)
         {
-            ViewData["Alertmsg"] = message;
+            //ProdInfo temp;
+            //foreach (ProdInfo item in db.ProductInfo)
+            //{
+            //    if (item.ProductId == id)
+            //    {
+                    
+            //    }
+            //}
+            db.ProductInfo.Find(id).Quantity = amount;
+            db.SaveChanges();
+
+
+            /*NOTE:
+             * SaveChanges vs SaveChangesAsync
+             * 
+             * SaveChangesAsyc can perform it's task in the background, not holding up the whole application while it does the task assigned.
+             * PS: 'await SaveChangesAsync' is better than creating a new thread and have the 'SaveChanges' run on the separate thread because it doesnt
+             * create any overhead.
+             */
         }
     }
 }
