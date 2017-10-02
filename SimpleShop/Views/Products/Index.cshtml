@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "Index";
-    int count = 0;
+    
 }
 
 <h2>Index</h2>
@@ -51,8 +51,11 @@
 
     @using (Html.BeginForm("AddToCart", "Products"))
     {
+        int count = 0;
+
         foreach (var item in Model)
         {
+            @Html.Hidden(string.Format("ProdId[{0}]",count), item.Product.ProductId)
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Product.ProductName)
@@ -71,12 +74,12 @@
                 </td>
                 <td>
 
-                    @Html.TextBox("quantity"+count, null, new { style = "width:50px", maxlength = "3", id = "quantityField" })
+                    @Html.TextBox(String.Format("quantity[{0}]",count), null, new { style = "width:50px", maxlength = "3", id = "quantityField" })
                     @*Html.Hidden("ProductId", item.Product.ProductId)*@
-                    @*@Html.Hidden("ProdId"+count, item.Product.ProductId)*@
+                    
                     @*@Html.Hidden("Prodamount"+count, null)*@
                     
-
+                    <button type="submit" id="add2cartbtn">Add Item</button>
 
                 </td>
 
@@ -89,8 +92,9 @@
             </tr>
 
             count++;
+            
         }
-        <button type="submit" id="add2cartbtn">Add Item</button>
+
 
     }
 

@@ -1,5 +1,6 @@
 ﻿using SimpleShop.Context;
 using SimpleShop.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -203,11 +204,12 @@ namespace SimpleShop.Controllers
         //    return View("Index", viewModel.ToList());
         //}
 
-        public ActionResult AddToCart(IEnumerable<PPinfoCase> prod)
+        public ActionResult AddToCart(List<string> quantity, List<string> ProdId)
         {
             ICollection<PPinfoCase> viewModel;
+            int temp = 0, itemsChanged = 0;
+            bool SuccessChange = false;
 
-            int count = 0;
             //for (int i = 0; i < Prod.Count; i++)
             //{
             //    if (Prod[i].amount > 0)
@@ -225,9 +227,30 @@ namespace SimpleShop.Controllers
             //}
             //AlertMessage("Prod contained: " + count);
 
-            EditQuantity(2, 13);
+            //EditQuantity(2, 13);
 
             viewModel = GetProducts();
+
+            for (int i = 0; i < ProdId.Count; i++)
+            {
+                Int32.TryParse(quantity[i], out temp);
+                if (temp > 0)
+                {
+                    EditQuantity(ProdId[i], quantity[i], viewModel);
+                    itemsChanged++;
+                    SuccessChange = true;
+                    /*add some checks in EditQuantity:
+                    * - change return value to boolean
+                    * - check if entered amount is a positive integer (non-negative and an integer).
+                    */
+                }
+            }
+            viewModel = GetProducts();
+            //if (SuccessChange)
+            //{
+            //    AlertMessage(string.Format("Successful purchase of {0} Items!!",itemsChanged));
+            //}
+
             return View("Index", viewModel.ToList());
         }
 
@@ -261,18 +284,23 @@ namespace SimpleShop.Controllers
             return viewModel;
         }
 
-        public void EditQuantity(int id, int amount)
+        public void EditQuantity(string id, string amount, ICollection<PPinfoCase> ItemList)
         {
-            //ProdInfo temp;
-            //foreach (ProdInfo item in db.ProductInfo)
-            //{
-            //    if (item.ProductId == id)
-            //    {
-                    
-            //    }
-            //}
-            db.ProductInfo.Find(id).Quantity = amount;
-            db.SaveChanges();
+            int Quantity = 0, NewQuantity = 0, id2int = 0;
+            Int32.TryParse(amount, out Quantity);
+            Int32.TryParse(id, out id2int);
+            foreach (PPinfoCase item in ItemList)
+            {
+                if (item.ProdInfo.ProductId.Equals(id))
+                {
+                    NewQuantity = item.ProdInfo.Quantity - Quantity;
+
+                }
+            }
+
+            AlertMessage("checking value: " + db.ProductInfo.Find(id2int).Quantity);
+            //db.ProductInfo.Find(id).Quantity = NewQuantity;
+            //db.SaveChanges();
 
 
             /*NOTE:
