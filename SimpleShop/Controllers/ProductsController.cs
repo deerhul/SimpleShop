@@ -210,25 +210,6 @@ namespace SimpleShop.Controllers
             int temp = 0, itemsChanged = 0;
             bool SuccessChange = false;
 
-            //for (int i = 0; i < Prod.Count; i++)
-            //{
-            //    if (Prod[i].amount > 0)
-            //    {
-
-            //    }
-            //}
-            //var objectVal = Prod[1].GetType().GetProperty("id").GetValue(Prod[1], null);
-            //foreach (PPinfoCase item in prod)
-            //{
-            //    if (item.ProdInfo.Quantity > 0)
-            //    {
-            //        count++;
-            //    }
-            //}
-            //AlertMessage("Prod contained: " + count);
-
-            //EditQuantity(2, 13);
-
             viewModel = GetProducts();
 
             for (int i = 0; i < ProdId.Count; i++)
@@ -236,8 +217,11 @@ namespace SimpleShop.Controllers
                 Int32.TryParse(quantity[i], out temp);
                 if (temp > 0)
                 {
-                    EditQuantity(ProdId[i], quantity[i], viewModel);
-                    itemsChanged++;
+                    //AlertMessage(string.Format("ID: {0}, Quantity: {1}.",ProdId[i],quantity[i])); //just for checking if the ID recieved is correct
+                    if (!EditQuantity(ProdId[i], quantity[i], viewModel))
+                    {
+                        itemsChanged++;
+                    }
                     SuccessChange = true;
                     /*add some checks in EditQuantity:
                     * - change return value to boolean
@@ -245,12 +229,11 @@ namespace SimpleShop.Controllers
                     */
                 }
             }
+            if (itemsChanged > 0)
+            {
+                AlertMessage(string.Format("Request for {0} item(s) exceeded the available amount.",itemsChanged));
+            }
             viewModel = GetProducts();
-            //if (SuccessChange)
-            //{
-            //    AlertMessage(string.Format("Successful purchase of {0} Items!!",itemsChanged));
-            //}
-
             return View("Index", viewModel.ToList());
         }
 
@@ -284,24 +267,30 @@ namespace SimpleShop.Controllers
             return viewModel;
         }
 
-        public void EditQuantity(string id, string amount, ICollection<PPinfoCase> ItemList)
+        public bool EditQuantity(string id, string amount, ICollection<PPinfoCase> ItemList)
         {
             int Quantity = 0, NewQuantity = 0, id2int = 0;
             Int32.TryParse(amount, out Quantity);
             Int32.TryParse(id, out id2int);
             foreach (PPinfoCase item in ItemList)
             {
-                if (item.ProdInfo.ProductId.Equals(id))
+                if (item.ProdInfo.ProductId == id2int)
                 {
-                    NewQuantity = item.ProdInfo.Quantity - Quantity;
+                    if (Quantity > item.ProdInfo.Quantity)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        NewQuantity = item.ProdInfo.Quantity - Quantity;
+                        item.ProdInfo.Quantity = NewQuantity;
+                        db.ProductInfo.Find(item.ProdInfo.ProdInfoId).Quantity = NewQuantity;
+                    }
 
                 }
             }
-
-            AlertMessage("checking value: " + db.ProductInfo.Find(id2int).Quantity);
-            //db.ProductInfo.Find(id).Quantity = NewQuantity;
-            //db.SaveChanges();
-
+            db.SaveChanges();
+            return true;
 
             /*NOTE:
              * SaveChanges vs SaveChangesAsync

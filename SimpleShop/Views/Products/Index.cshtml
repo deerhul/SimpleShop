@@ -75,11 +75,8 @@
                 <td>
 
                     @Html.TextBox(String.Format("quantity[{0}]",count), null, new { style = "width:50px", maxlength = "3", id = "quantityField" })
-                    @*Html.Hidden("ProductId", item.Product.ProductId)*@
+ 
                     
-                    @*@Html.Hidden("Prodamount"+count, null)*@
-                    
-                    <button type="submit" id="add2cartbtn">Add Item</button>
 
                 </td>
 
@@ -92,33 +89,11 @@
             </tr>
 
             count++;
-            
+
         }
+        <button type="submit" id="add2cartbtn">Add Item</button>
 
 
     }
 
 </table>
-
-@* store all contents of textboxes to hidden attribute of each corresponding items *@
-<script type="text/javascript">
-    $(function () {
-        var amountField;
-        $('.add2cartbtn').click(function () {
-            for (int i = 0; i < count) {
-                
-                amountField = $("quantity" + i).val();
-                if (amountField != null && amountField > 0) {
-                    model[i].get(1).get(3).val(amountField);
-                } else {
-                    model[i].get(1).get(3).val(0);
-                }
-                
-                //$("Prodamount"+i).val(amountField);
-                i++;
-            }
-
-        $("")
-    })
-    })
-</script>
