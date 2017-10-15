@@ -5,8 +5,6 @@ namespace SimpleShop.Models
     public class UserCartItem
     {
         [Key]
-        public int UserCartId { get; set; }
-
         [Required]
         public int UserId { get; set; }
 
