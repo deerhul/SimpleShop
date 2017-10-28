@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "Index";
-    
+
 }
 
 <h2>Index</h2>
@@ -55,13 +55,13 @@
 
         foreach (var item in Model)
         {
-            @Html.Hidden(string.Format("ProdId[{0}]",count), item.Product.ProductId)
+            @Html.Hidden(string.Format("ProdId[{0}]", count), item.Product.ProductId)
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Product.ProductName)
                 </td>
                 <td>
-                    <img src="@Url.Content("~/Content/images/"+@item.Product.ImageUrl)" alt="@item.Product.ProductName" height="100" width="150">
+                    <img src="@Url.Content("~/Content/images/" + @item.Product.ImageUrl)" alt="@item.Product.ProductName" height="100" width="150">
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Product.Description)
@@ -74,9 +74,9 @@
                 </td>
                 <td>
 
-                    @Html.TextBox(String.Format("quantity[{0}]",count), null, new { style = "width:50px", maxlength = "3", id = "quantityField" })
- 
-                    
+                    @Html.TextBox(String.Format("quantity[{0}]", count), null, new { style = "width:50px", maxlength = "3", id = "quantityField" })
+
+
 
                 </td>
 
@@ -91,9 +91,13 @@
             count++;
 
         }
-        <button type="submit" id="add2cartbtn">Add Item</button>
+
+        //check if user is logged in by checking if their session has been initiated
+        if (@Session["User"] != null) {
+            @:<button type="submit" id="add2cartbtn">Add Item</button>
+        }
 
 
-    }
+            }
 
 </table>

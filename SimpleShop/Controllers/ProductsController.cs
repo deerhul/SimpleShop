@@ -217,7 +217,6 @@ namespace SimpleShop.Controllers
                 Int32.TryParse(quantity[i], out temp);
                 if (temp > 0)
                 {
-                    //AlertMessage(string.Format("ID: {0}, Quantity: {1}.",ProdId[i],quantity[i])); //just for checking if the ID recieved is correct
                     if (!EditQuantity(ProdId[i], quantity[i], viewModel))
                     {
                         itemsChanged++;
@@ -272,7 +271,10 @@ namespace SimpleShop.Controllers
             int Quantity = 0, NewQuantity = 0, id2int = 0;
             Int32.TryParse(amount, out Quantity);
             Int32.TryParse(id, out id2int);
-            foreach (PPinfoCase item in ItemList)
+            int[,] tempArray = new int[3,2];
+            int i = 0;
+
+            foreach (PPinfoCase item in ItemList) //find item in the database and edit properties
             {
                 if (item.ProdInfo.ProductId == id2int)
                 {
@@ -285,10 +287,17 @@ namespace SimpleShop.Controllers
                         NewQuantity = item.ProdInfo.Quantity - Quantity;
                         item.ProdInfo.Quantity = NewQuantity;
                         db.ProductInfo.Find(item.ProdInfo.ProdInfoId).Quantity = NewQuantity;
+
+                        //add information to session
+                        tempArray[i, 0] = item.ProdInfo.ProdInfoId;
+                        tempArray[i, 1] = NewQuantity;
+
                     }
 
                 }
             }
+            @Session["test"] = tempArray;
+
             db.SaveChanges();
             return true;
 

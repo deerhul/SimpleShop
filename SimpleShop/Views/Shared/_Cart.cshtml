@@ -1,1 +1,31 @@
-﻿@model IEnumerable<>
+﻿@using System.Text
+@*@model IEnumerable<>*@
+
+
+@{
+    if (@Session["test"] != null)
+    {
+        int[,] tempList = (int[,])Session["test"];
+        //int i = 0;
+        StringBuilder sb = new StringBuilder();
+        //foreach (int[,] array in tempList)
+        //{
+        //    sb.Append(string.Format("ID: {0}, Quantity: {1}.", array.GetValue(i, 0), array.GetValue(i, 1)) + " | ");
+        //}
+
+        for (int i = 0; i < 3; i++) //this cant stay. had to specify how much items in session, not always going to be 3
+        {
+            if (tempList[i, 1] > 0)
+            {
+                sb.Append(string.Format("ID: {0}, Quantity: {1}.", tempList[i, 0], tempList[i, 1] + " | "));
+            }
+        }
+
+        @: @sb.ToString()
+    }
+    else
+    {
+        @: Session not started
+    }
+
+}
