@@ -10,6 +10,13 @@
             @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
             @* start session here *@
             @(Session["User"] = User.Identity.GetUserId())
+            @{
+                int maxCartItems = 10;
+                int valuesPerArray = 2;
+                int[,] TempArray = new int[maxCartItems, valuesPerArray];
+                Session["Cart"] = TempArray;
+                Session["MaxCart"] = maxCartItems;
+            }
         </li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
     </ul>

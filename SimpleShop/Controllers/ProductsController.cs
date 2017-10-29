@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web.Mvc;
 
 namespace SimpleShop.Controllers
@@ -269,10 +270,16 @@ namespace SimpleShop.Controllers
         public bool EditQuantity(string id, string amount, ICollection<PPinfoCase> ItemList)
         {
             int Quantity = 0, NewQuantity = 0, id2int = 0;
+            int[,] tempArray = (int[,])Session["Cart"];
+            int i = 0;
+            int maxCart = 0;
+
             Int32.TryParse(amount, out Quantity);
             Int32.TryParse(id, out id2int);
-            int[,] tempArray = new int[3,2];
-            int i = 0;
+            Int32.TryParse(Session["MaxCart"].ToString(), out maxCart);
+
+            //initialize second array
+
 
             foreach (PPinfoCase item in ItemList) //find item in the database and edit properties
             {
@@ -289,13 +296,30 @@ namespace SimpleShop.Controllers
                         db.ProductInfo.Find(item.ProdInfo.ProdInfoId).Quantity = NewQuantity;
 
                         //add information to session
-                        tempArray[i, 0] = item.ProdInfo.ProdInfoId;
-                        tempArray[i, 1] = NewQuantity;
-
+                        if (InsertIntoCart(tempArray, maxCart, item.ProdInfo.ProdInfoId, Quantity))
+                        {
+                            AlertMessage("Add to cart Successs!");
+                        }
+                        else
+                        {
+                            AlertMessage("Add to cart Failure!");
+                        }
                     }
-
                 }
             }
+
+
+            
+            //for (int n = 0 ; n < 3; n++)
+            //{
+            //    tempArray[n, 0] = n+1;
+            //    tempArray[n, 1] = (n+1)*10;
+            //}
+            //AlertMessage(string.Format("{0}_{1}, {2}_{3}, {4}_{5}",
+            //    tempArray[0, 0], tempArray[0, 1],
+            //    tempArray[1, 0], tempArray[1, 1],
+            //    tempArray[2, 0], tempArray[2, 1]));
+
             @Session["test"] = tempArray;
 
             db.SaveChanges();
@@ -308,6 +332,40 @@ namespace SimpleShop.Controllers
              * PS: 'await SaveChangesAsync' is better than creating a new thread and have the 'SaveChanges' run on the separate thread because it doesnt
              * create any overhead.
              */
+        }
+
+        public bool InsertIntoCart(int[,] tempArray, int maxCart, int Id, int Amount)
+        {  
+            //traverse through the array, insert into the right slot (duplicate or empty), return true
+            for (int i = 0 ; i < maxCart; i++)
+            {
+                if ( (tempArray[i,0] == 0 || tempArray[i,0] == Id) ) //if slot is either empty or occupied by same item
+                {
+                    tempArray[i, 1] += Amount; //add amount to amount stored in array
+                    Session["Cart"] = tempArray; //write over array in session["cart"] with updated array
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public void printArray(int[,] array)
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0 ; i < array.Length; i++)
+            {
+                if (array[i, 0] != 0)
+                {
+                    sb.AppendLine(string.Format("ID: {0}, Quantity: {1}.", array[i, 0], array[i, 1]));
+                }
+                else
+                {
+                    break;
+                }
+                
+            }
+            AlertMessage(sb.ToString());
         }
     }
 }
